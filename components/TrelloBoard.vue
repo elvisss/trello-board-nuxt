@@ -15,6 +15,7 @@
             <input
               type="text"
               @keyup.enter="($event) => ($event.target as HTMLInputElement).blur()"
+              @keydown.backspace="removeColumn(column.title)"
               v-model="column.title"
               class="title-input bg-transparent focus:bg-white rounded px-1 w-4/5"
             />
@@ -58,7 +59,7 @@ import type { Column, Task, ID } from '@/types'
 
 const alt = useKeyModifier('Alt')
 
-const columns = reactive<Column[]>([
+const columns = ref<Column[]>([
   {
     id: nanoid(),
     title: 'To do',
@@ -128,10 +129,16 @@ function createColumn() {
     tasks: [],
   }
 
-  columns.push(column);
+  columns.value.push(column);
   nextTick(() => {
     const titleInput = document.querySelector('.column:last-child .title-input') as HTMLInputElement
     titleInput.focus()
   })
+}
+
+function removeColumn(title: string) {
+  if (title === '') {
+    columns.value = columns.value.filter((column) => column.title !== '')
+  }
 }
 </script>
