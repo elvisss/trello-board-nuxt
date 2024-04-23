@@ -59,7 +59,7 @@ import type { Column, Task, ID } from '@/types'
 
 const alt = useKeyModifier('Alt')
 
-const columns = ref<Column[]>([
+const columns = useLocalStorage<Column[]>('trelloBoard', [
   {
     id: nanoid(),
     title: 'To do',
