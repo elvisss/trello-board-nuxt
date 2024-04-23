@@ -2,6 +2,8 @@
   <draggable
     :list="columns"
     group="columns"
+    :animation="150"
+    handle=".drag-handle"
     item-key="id"
     class="flex gap-4 overflow-x-auto items-start"
   >
@@ -10,7 +12,7 @@
         class="column bg-gray-200 p-5 rounded min-w-[250px]"
       >
         <header class="font-bold mb-4">
-          {{ column.title }}
+          <DragHandle /> {{ column.title }}
         </header>
         <TrelloBoardTask
           v-for="task in column.tasks"
