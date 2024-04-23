@@ -16,7 +16,10 @@
         </header>
         <draggable
           :list="column.tasks"
-          group="tasks"
+          :group="{
+            name: 'tasks',
+            pull: alt ? 'clone' : true,
+          }"
           :animation="150"
           handle=".drag-handle"
           item-key="id"
@@ -40,6 +43,8 @@ import { nanoid } from 'nanoid'
 import draggable from 'vuedraggable'
 
 import type { Column, Task } from '@/types'
+
+const alt = useKeyModifier('Alt')
 
 const columns = reactive<Column[]>([
   {
