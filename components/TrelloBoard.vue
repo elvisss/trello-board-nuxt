@@ -33,7 +33,7 @@
           </template>
         </draggable>
         <footer>
-          <button class="text-gray-500">+ Add a Card</button>
+          <NewTask @add="$event => column.tasks.push($event)" />
         </footer>
       </div>
     </template>
@@ -84,4 +84,15 @@ const columns = reactive<Column[]>([
     tasks: [],
   },
 ])
+
+function addCard (columnId: string) {
+  const column = columns.find((column) => column.id === columnId)
+  if (!column) return
+
+  column.tasks.push({
+    id: nanoid(),
+    title: 'New Task',
+    createdAt: new Date(),
+  })
+}
 </script>
