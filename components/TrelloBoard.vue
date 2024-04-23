@@ -28,6 +28,7 @@
           <div>
             <TrelloBoardTask
               :task="task"
+              @delete="(taskId: ID) => deleteTask(column, taskId)"
             />
           </div>
           </template>
@@ -44,7 +45,7 @@
 import { nanoid } from 'nanoid'
 import draggable from 'vuedraggable'
 
-import type { Column, Task } from '@/types'
+import type { Column, Task, ID } from '@/types'
 
 const alt = useKeyModifier('Alt')
 
@@ -85,14 +86,25 @@ const columns = reactive<Column[]>([
   },
 ])
 
-function addCard (columnId: string) {
-  const column = columns.find((column) => column.id === columnId)
-  if (!column) return
+// function addCard (columnId: string) {
+//   const column = columns.find((column) => column.id === columnId)
+//   if (!column) return
 
-  column.tasks.push({
-    id: nanoid(),
-    title: 'New Task',
-    createdAt: new Date(),
-  })
+//   column.tasks.push({
+//     id: nanoid(),
+//     title: 'New Task',
+//     createdAt: new Date(),
+//   })
+// }
+
+function deleteTask (column: Column, taskId: ID) {
+  column.tasks = column.tasks.filter((task) => task.id !== taskId)
+  // for (const column of columns) {
+  //   const index = column.tasks.findIndex((task) => task.id === taskId)
+  //   if (index !== -1) {
+  //     column.tasks.splice(index, 1)
+  //     return
+  //   }
+  // }
 }
 </script>

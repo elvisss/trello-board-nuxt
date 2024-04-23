@@ -4,7 +4,7 @@
       v-model="title"
       @keydown.tab="creatTask"
       @keyup.enter="creatTask"
-      class="focus:bg-white focus:shadow resize-none rounded w-full border-none"
+      class="focus:bg-white focus:shadow resize-none rounded w-full border-none bg-transparent p-2 cursor-pointer focus:cursor-text overflow-hidden"
       :class="{
         'h-7': !focused,
         'h-28': focused,
@@ -27,6 +27,12 @@ const emit = defineEmits<{
 
 const focused = ref(false)
 const title = ref('')
+
+watch(focused, (value) => {
+  if (!value) {
+    title.value = ''
+  }
+})
 
 function creatTask(e: Event) {
   if (title.value.trim()) {
