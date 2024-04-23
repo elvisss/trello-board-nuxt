@@ -14,11 +14,19 @@
         <header class="font-bold mb-4">
           <DragHandle /> {{ column.title }}
         </header>
-        <TrelloBoardTask
-          v-for="task in column.tasks"
-          :key="task.id"
-          :task="task"
-        />
+        <draggable
+          :list="column.tasks"
+          group="tasks"
+          :animation="150"
+          handle=".drag-handle"
+          item-key="id"
+        >
+        <template #item="{ element: task }: { element: Task }">
+          <TrelloBoardTask
+            :task="task"
+          />
+          </template>
+        </draggable>
         <footer>
           <button class="text-gray-500">+ Add a Card</button>
         </footer>
@@ -31,7 +39,7 @@
 import { nanoid } from 'nanoid'
 import draggable from 'vuedraggable'
 
-import type { Column } from '@/types'
+import type { Column, Task } from '@/types'
 
 const columns = reactive<Column[]>([
   {
@@ -40,6 +48,7 @@ const columns = reactive<Column[]>([
     tasks: [
       { id: nanoid(), title: 'Task 1', createdAt: new Date() },
       { id: nanoid(), title: 'Task 2', createdAt: new Date() },
+      { id: nanoid(), title: 'Lorem ipsum asd asd asdasd', createdAt: new Date()}
     ],
   },
   {
